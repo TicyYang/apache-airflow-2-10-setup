@@ -63,9 +63,8 @@ For details on setting up Redis Sentinel, please refer to the other **[repositor
     `source ~/.bashrc`
 7. Install Airflow MySQL provider: `pip install apache-airflow[mysql]`
 8. Update the database connection in the configuration file: `vi airflow.cfg`
-    ```toml
-    sql_alchemy_conn = mysql+mysqldb://<user>:<password>@<ip>:3306/airflow_db
-    ```
+    Configuration examples can be found in the `airflow.cfg`.
+
 9. Reset the Airflow metadata database: `airflow db migrate`
 10. Create an admin user:
     ```shell
