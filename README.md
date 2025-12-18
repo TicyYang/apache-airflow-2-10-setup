@@ -2,6 +2,22 @@
 This repository demonstrates how to build and configure an Apache Airflow 2.10 environment using CeleryExecutor. Redis Sentinel is used as the queue broker, while MySQL serves as the metadata database backend. The project focuses on a practical and reproducible setup that is suitable for production environments.
 For details on setting up Redis Sentinel, please refer to the other **[repository](https://github.com/TicyYang/redis-sentinel-docker-compose)**.
 
+**Table of Contents**
+- [Environment and Software Versions](#environment-and-software-versions)
+- [Architecture Overview](#architecture-overview)
+- [Install MySQL (Node 4)](#install-mysql-node-4)
+- [Install Airflow (Node 1)](#install-airflow-node-1)
+- [Install Cluster Related Packages](#install-cluster-related-packages)
+- [Startup and Shutdown](#startup-and-shutdown)
+- [Set Node 2 \& Node 3](#set-node-2--node-3)
+  - [Installation (Same as Node 1)](#installation-same-as-node-1)
+  - [Startup](#startup)
+- [Run as a System Service](#run-as-a-system-service)
+- [Synchronize DAG files](#synchronize-dag-files)
+  - [Option 1: rsync](#option-1-rsync)
+  - [Option 2: Manually trigger synchronization using a DAG](#option-2-manually-trigger-synchronization-using-a-dag)
+
+
 ## Environment and Software Versions
 
 - VM * 4
@@ -80,7 +96,7 @@ For details on setting up Redis Sentinel, please refer to the other **[repositor
 ## Install Cluster Related Packages
 1. Install Celery and Redis dependencies: `pip install "apache-airflow[celery, redis]"`
 2. Edit the configuration file: `vi airflow.cfg`
-   Configuration examples can be found in the `airflow.cfg` in this repository.
+   Configuration examples can be found in the `airflow.cfg`.
 
 ---
 
@@ -132,7 +148,7 @@ airflow celery worker -D
 ## Run as a System Service
 1. Set environment variable: `vi /etc/sysconfig/airflow`
    Add the following line: `AIRFLOW_HOME=/data/airflow`
-2. Edit the following files in `/etc/systemd/system/`. Examples can be found in the directory `systemd` in this repository.
+2. Edit the following files in `/etc/systemd/system/`. Examples can be found in the directory `systemd`.
     - `airflow-webserver.service`
     - `airflow-scheduler.service`
     - `airflow-worker.service`
@@ -154,8 +170,8 @@ airflow celery worker -D
 ### Option 1: rsync
 1. Create a management directory: `mkdir ${AIRFLOW_HOME}/manage`
 2. Create a shell script: `vi ${AIRFLOW_HOME}/manage/sync.sh`
-    Shell script examples can be found in the `sync.sh` in this repository.
+    Shell script examples can be found in the directory `manage`.
 
 ### Option 2: Manually trigger synchronization using a DAG
 Create DAG file: `vi ${AIRFLOW_HOME}/dags/sync_dags.py`
-DAG file examples can be found in the directory `dags` in this repository.
+DAG file examples can be found in the directory `dags`.
