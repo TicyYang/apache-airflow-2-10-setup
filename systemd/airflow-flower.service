@@ -1,0 +1,15 @@
+[Unit]
+Description=Airflow celery flower
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/airflow
+User=ticy
+Group=ticy
+Type=simple
+ExecStart=/bin/bash -lc '/usr/local/bin/airflow celery flower >> /home/ticy/airflow/airflow-flower.out 2>> /home/ticy/airflow/airflow-flower.err'
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target

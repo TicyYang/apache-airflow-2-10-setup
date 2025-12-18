@@ -1,0 +1,15 @@
+[Unit]
+Description=Airflow celery worker daemon
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/airflow
+User=ticy
+Group=ticy
+Type=simple
+ExecStart=/bin/bash -lc '/usr/local/bin/airflow celery worker >> /home/ticy/airflow/airflow-worker.out 2>> /home/ticy/airflow/airflow-worker.err'
+Restart=on-failure
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

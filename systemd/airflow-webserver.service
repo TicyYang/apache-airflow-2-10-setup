@@ -1,0 +1,15 @@
+[Unit]
+Description=Airflow webserver daemon
+After=network.target
+
+[Service]
+EnvironmentFile=/etc/sysconfig/airflow
+User=ticy
+Group=ticy
+Type=simple
+ExecStart=/bin/bash -lc '/usr/local/bin/airflow webserver -p 8080 --stdout /home/ticy/airflow/airflow-webserver.out'
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
