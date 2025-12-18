@@ -133,7 +133,7 @@ airflow celery worker -D
 ## Run as a System Service
 1. Set environment variable: `vi /etc/sysconfig/airflow`
    Add the following line: `AIRFLOW_HOME=/data/airflow`
-2. Edit the following files in `/etc/systemd/system/`. Examples can be found in this repository.
+2. Edit the following files in `/etc/systemd/system/`. Examples can be found in the directory `systemd` in this repository.
     - `airflow-webserver.service`
     - `airflow-scheduler.service`
     - `airflow-worker.service`
@@ -147,4 +147,13 @@ airflow celery worker -D
     systemctl restart airflow-webserver
     systemctl disable airflow-webserver
     systemctl status airflow-webserver
+    ```
+
+---
+
+## Synchronize DAG files
+### Option 1: rsync
+1. Create a management directory: `mkdir /data/airflow/manage`
+2. Create a shell script: `vi /data/manage/sync.sh`
+    ```shell
     ```
