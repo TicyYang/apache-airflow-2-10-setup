@@ -80,7 +80,7 @@ For details on setting up Redis Sentinel, please refer to the other **[repositor
 ## Install Cluster Related Packages
 1. Install Celery and Redis dependencies: `pip install "apache-airflow[celery, redis]"`
 2. Edit the configuration file: `vi airflow.cfg`
-   Configuration examples can be found in the `airflow.cfg` file in this repository.
+   Configuration examples can be found in the `airflow.cfg` in this repository.
 
 ---
 
@@ -100,7 +100,7 @@ For details on setting up Redis Sentinel, please refer to the other **[repositor
     
     airflow celery stop
 
-    rm /data/airflow/airflow-{webserver,scheduler,webserver-monitor,flower,worker}.pid
+    rm ${AIRFLOW_HOME}/airflow-{webserver,scheduler,webserver-monitor,flower,worker}.pid
     ```
 
 ---
@@ -115,7 +115,6 @@ For details on setting up Redis Sentinel, please refer to the other **[repositor
       - Node 3: `default_queue = default,node-3`
     - When running more than one webserver, the `secret_key` must be identical across all nodes. Otherwise, logs from individual workers cannot be retrieved.
     - The `flower_basic_auth` setting must be configured even on nodes where Flower is not running.
-    - 
 
 ### Startup
 ```shell
@@ -153,7 +152,10 @@ airflow celery worker -D
 
 ## Synchronize DAG files
 ### Option 1: rsync
-1. Create a management directory: `mkdir /data/airflow/manage`
-2. Create a shell script: `vi /data/manage/sync.sh`
-    ```shell
-    ```
+1. Create a management directory: `mkdir ${AIRFLOW_HOME}/manage`
+2. Create a shell script: `vi ${AIRFLOW_HOME}/manage/sync.sh`
+    Shell script examples can be found in the `sync.sh` in this repository.
+
+### Option 2: Manually trigger synchronization using a DAG
+Create DAG file: `vi ${AIRFLOW_HOME}/dags/sync_dags.py`
+DAG file examples can be found in the directory `dags` in this repository.
