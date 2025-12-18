@@ -1,0 +1,18 @@
+services:
+  mysql-airflow:
+    image: mysql:oraclelinux8
+    container_name: mysql-airflow
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: <password>
+      TZ: "Asia/Taipei"
+    command: [
+      '--binlog_expire_logs_seconds=259200',
+      '--log-error=/var/lib/mysql/mysqld.log',
+      '--log_timestamps=SYSTEM',
+      '--innodb_buffer_pool_size=1G'
+    ]
+    volumes:
+      - ./airflow_mysql:/var/lib/mysql/
