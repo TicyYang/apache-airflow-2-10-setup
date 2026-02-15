@@ -1,4 +1,4 @@
-# Apache Airflow 2.10 Setup
+# Apache Airflow Cluster Blueprint
 This repository demonstrates how to build and configure an Apache Airflow 2.10 environment using CeleryExecutor. Redis Sentinel is used as the queue broker, while MySQL serves as the metadata database backend. The project focuses on a practical and reproducible setup that is suitable for production environments. Redis Sentinel can be deployed on Node 1 through Node 3, as demonstrated in this project, or on three dedicated hosts.
 
 ---
