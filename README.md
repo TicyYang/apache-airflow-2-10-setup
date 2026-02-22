@@ -157,5 +157,5 @@ airflow celery worker -D
     Shell script examples can be found in the directory `manage`.
 
 ### Option 2: Manually trigger synchronization using a DAG
-Create DAG file: `vi ${AIRFLOW_HOME}/dags/sync_dags.py`
-DAG file examples can be found in the directory `dags`.
+- Create DAG file: `vi ${AIRFLOW_HOME}/dags/sync_dags.py`
+- DAG file examples can be found in the directory `dags`.
