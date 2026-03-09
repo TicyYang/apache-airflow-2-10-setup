@@ -5,7 +5,7 @@ This guide demonstrates the deployment of a 3 node Redis Sentinel cluster (1 Mas
 ---
 
 ## Environment
-- VM * 3
+
 - OS: Ubuntu Server 22.04 LTS
 - Redis: 7.2.4
 
