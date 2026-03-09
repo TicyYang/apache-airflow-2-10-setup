@@ -15,7 +15,6 @@ This repository demonstrates how to build and configure an Apache Airflow 2.10 e
 | MySQL            |  -  |  -  |  -  |  O  |
 | Redis            |  O  |  O  |  O  |  -  |
 | Redis Sentinel   |  O  |  O  |  O  |  -  |
-| Redisinsight     |  -  |  -  |  -  |  O  |
 
 
 ![Architecture](./architecture.png)
