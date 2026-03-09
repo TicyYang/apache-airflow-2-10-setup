@@ -1,0 +1,5 @@
+[Service]
+Type=forking
+ExecStart=/usr/bin/redis-server /usr/local/redis/bin/redis.conf
+ExecStop=/usr/bin/redis-cli -p 6379 shutdown save
+User=ticy

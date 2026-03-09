@@ -1,0 +1,6 @@
+[Service]
+Type=forking
+ExecStart=/usr/bin/redis-sentinel /usr/local/redis/bin/sentinel.conf
+ExecStop=/usr/bin/redis-cli -p 26379 shutdown
+Restart=always
+User=ticy
