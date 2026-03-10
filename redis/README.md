@@ -4,6 +4,13 @@ This guide demonstrates the deployment of a 3 node Redis Sentinel cluster (1 Mas
 
 ---
 
+## Architecture
+
+| Component \ Server IP  | Node 1 | Node 2 | Node 3 |
+| --- |:---:|:---:|:---:|
+| Redis            |  O  |  O  |  O  |
+| Redis Sentinel   |  O  |  O  |  O  |
+
 ## Environment
 
 - OS: Ubuntu Server 22.04 LTS
