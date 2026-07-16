@@ -190,6 +190,6 @@ airflow celery worker -D
         nomissingok
         notifempty
         copytruncate
-        su airflow airflow
+        su <user> <group>
     }
     ```
