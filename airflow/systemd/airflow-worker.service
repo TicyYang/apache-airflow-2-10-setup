@@ -4,12 +4,16 @@ After=network.target
 
 [Service]
 EnvironmentFile=/etc/sysconfig/airflow
-User=ticy
-Group=ticy
+User=<user>
+Group=<user>
 Type=simple
-ExecStart=/bin/bash -lc '/usr/local/bin/airflow celery worker >> /home/ticy/airflow/airflow-worker.out 2>> /home/ticy/airflow/airflow-worker.err'
+ExecStart=/bin/bash -lc 'exec /usr/local/bin/airflow celery worker >> /home/<user>/airflow/airflow-worker.out 2>> /home/<user>/airflow/airflow-worker.err'
 Restart=on-failure
 RestartSec=10s
+
+KillMode=control-group
+KillSignal=SIGTERM
+ExecStopPost=/bin/bash -lc '/usr/sbin/fuser -k 8793/tcp || true'
 
 [Install]
 WantedBy=multi-user.target

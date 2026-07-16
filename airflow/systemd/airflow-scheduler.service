@@ -4,12 +4,18 @@ After=network.target
 
 [Service]
 EnvironmentFile=/etc/sysconfig/airflow
-User=ticy
-Group=ticy
+User=airflow
+Group=airflow
 Type=simple
-ExecStart=/bin/bash -lc '/usr/local/bin/airflow scheduler >> /home/ticy/airflow/airflow-scheduler.out 2>> /home/ticy/airflow/airflow-scheduler.err'
+WorkingDirectory=/home/<user>/airflow/
+
+ExecStart=/bin/bash -lc 'exec /usr/local/bin/airflow scheduler >> /home/<user>/airflow/airflow-scheduler.out 2>> /home/<user>/airflow/airflow-scheduler.err'
+
 Restart=always
 RestartSec=5s
+
+KillMode=control-group
+KillSignal=SIGTERM
 
 [Install]
 WantedBy=multi-user.target

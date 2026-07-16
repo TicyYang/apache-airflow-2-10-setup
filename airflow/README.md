@@ -92,14 +92,9 @@ This guide demonstrates the deployment of a production-ready Apache Airflow clus
 
 ## Set Node 2 & Node 3
 ### Installation (Same as Node 1)
-1. Initialize the database: `airflow db migrate`
-   Configuration files will be generated after initialization.
-2. Edit the configuration file: `vi airflow.cfg`
-    - All settings must be exactly the same as Node 1, except for `default_queue`.
-      - Node 2: `default_queue = default,node-2`
-      - Node 3: `default_queue = default,node-3`
-    - When running more than one webserver, the `secret_key` must be identical across all nodes. Otherwise, logs from individual workers cannot be retrieved.
-    - The `flower_basic_auth` setting must be configured even on nodes where Flower is not running.
+Copy configuration files from Node 1.
+- When running more than one webserver, the `secret_key` must be identical across all nodes. Otherwise, logs from individual workers cannot be retrieved.
+- The `flower_basic_auth` setting must be configured even on nodes where Flower is not running.
 
 ### Startup
 ```shell
@@ -147,40 +142,44 @@ airflow celery worker -D
 ## Log Management
 
 ### Log File Reference
-| Component | Filename | Description | Growth (Daily) | Rotation Required |
-| --- | --- | --- | :---: | :---: |
-| Flower | `airflow-flower.err` | Error messages from Flower; empty if no error. | X | X |
-| Flower | `airflow-flower.out` | Flower Web UI URL, connected Broker, and startup information. | X | X |
-| Scheduler | `airflow-scheduler.err` | Gunicorn startup, workers, listening ports, and PIDs. | X | X |
-| Scheduler | `airflow-scheduler.log` | Duplicate of `.out` content. Empty if started via systemd. | X | X |
-| Scheduler | `airflow-scheduler.out` | Active executors and task dispatching records. | O | O |
-| Webserver | `airflow-webserver.err` | Webserver Gunicorn startup, workers, ports, and PIDs. | X | X |
-| Webserver | `airflow-webserver.log` | Webserver access logs, including Client IP and HTTP Methods. | O | O |
-| Webserver | `airflow-webserver.out` | Information regarding Webserver startup and shutdown. | X | X |
-| Worker | `airflow-worker.err` | Error messages, Gunicorn workers, Broker connection, and task execution details. | O | O |
-| Worker | `airflow-worker.log` | Empty if started via systemd. | X | X |
-| Worker | `airflow-worker.out` | Connected Broker, Result Backend, and monitored queues. | X | X |
+| Component | Filename | Description |
+| --- | --- | --- |
+| Flower | `airflow-flower.err` | Error messages from Flower; empty if no error. |
+| Flower | `airflow-flower.out` | Flower Web UI URL, connected Broker, and startup information. |
+| Scheduler | `airflow-scheduler.err` | Gunicorn startup, workers, listening ports, and PIDs. |
+| Scheduler | `airflow-scheduler.log` | Duplicate of `.out` content. Empty if started via systemd. |
+| Scheduler | `airflow-scheduler.out` | Active executors and task dispatching records. |
+| Webserver | `airflow-webserver.err` | Webserver Gunicorn startup, workers, ports, and PIDs. |
+| Webserver | `airflow-webserver.log` | Webserver access logs, including Client IP and HTTP Methods. |
+| Webserver | `airflow-webserver.out` | Information regarding Webserver startup and shutdown. |
+| Worker | `airflow-worker.err` | Error messages, Gunicorn workers, Broker connection, and task execution details. |
+| Worker | `airflow-worker.log` | Empty if started via systemd. |
+| Worker | `airflow-worker.out` | Connected Broker, Result Backend, and monitored queues. |
 
-Files marked for rotation:
-- `airflow-scheduler.out`
-- `airflow-webserver.log`
-- `airflow-scheduler.out`
 
 ### Configuration & Setup
 1. Create Rotation Directory (as your own user): `mkdir /home/<user>/airflow/logs_rotate`
 2. User `root`: `vi /etc/logrotate.d/airflow`
-    ```bash
-    # Note: The third node only contain airflow-worker.err
+    ```shell
+    /home/<user>/airflow/airflow-flower.err
+    /home/<user>/airflow/airflow-flower.out
+    /home/<user>/airflow/airflow-scheduler.err
+    /home/<user>/airflow/airflow-scheduler.log
     /home/<user>/airflow/airflow-scheduler.out
+    /home/<user>/airflow/airflow-webserver.err
     /home/<user>/airflow/airflow-webserver.log
-    /home/<user>/airflow/airflow-worker.err {
-        daily
-        rotate 7
-        dateext
-        olddir /home/<user>/airflow/logs_rotate
+    /home/<user>/airflow/airflow-webserver.out
+    /home/<user>/airflow/airflow-worker.err
+    /home/<user>/airflow/airflow-worker.out {
+        daily    
+        rotate 31    
+        dateext    
+        olddir /data/hadoop/airflow/logs_rotate
         compress
+        delaycompress
         nomissingok
         notifempty
         copytruncate
+        su airflow airflow
     }
     ```
