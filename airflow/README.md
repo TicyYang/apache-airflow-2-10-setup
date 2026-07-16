@@ -4,6 +4,16 @@ This guide demonstrates the deployment of a production-ready Apache Airflow clus
 
 ---
 
+## Architecture
+
+| Component \ Server IP  | Node 1 | Node 2 | Node 3 | Node 4 |
+| --- |:---:|:---:|:---:|:---:|
+| Scheduler        |  O  |  O  |  -  |  -  |
+| Webserver        |  O  |  O  |  -  |  -  |
+| Worker           |  O  |  O  |  O  |  -  |
+| Flower           |  O  |  -  |  -  |  -  |
+| MySQL            |  -  |  -  |  -  |  O  |
+
 ## Environment
 
 - OS: Ubuntu Server 22.04 LTS
